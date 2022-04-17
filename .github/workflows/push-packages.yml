@@ -31,15 +31,11 @@ jobs:
           restore-keys: |
             ${{ runner.os}}-node_modules-
       - name: Build and publish package ${{ matrix.java-version }}
-        if: matrix.java-version == "17"
         run: |
           mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
           mvn -B -DskipTests -Pskip-shaded-web-jar -Pskip-tools-jar source:jar deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build ${{ matrix.java-version }}
-        if: matrix.java-version != "17"
-        run: mvn -B clean test
   build-only:
     runs-on: ubuntu-20.04
     strategy:
