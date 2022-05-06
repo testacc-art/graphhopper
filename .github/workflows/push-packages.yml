@@ -90,5 +90,6 @@ jobs:
       - name: Build ${{ matrix.java-version }}
         run: |
           java -version
+          mvn --version
           mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
           mvn -B clean test -X
