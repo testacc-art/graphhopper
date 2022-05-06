@@ -79,5 +79,5 @@ jobs:
             ${{ runner.os}}-node_modules-
       - name: Build ${{ matrix.java-version }}
         run: |
-          mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
-          mvn -B clean test
+          java -version
+          mvn -B clean test -X
