@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          download_url="https://api.adoptium.net/v3/binary/latest/19/ea/linux/x64/jdk/hotspot/normal/eclipse"
+          download_url="https://download.java.net/java/early_access/jdk19/20/GPL/openjdk-19-ea+20_linux-x64_bin.tar.gz"
           wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
       - uses: actions/setup-java@v3
         with:
@@ -89,7 +89,7 @@ jobs:
       
       - name: Build ${{ matrix.java-version }}
         run: |
-          java -version
           mvn --version
+          java -version
           mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
           mvn -B clean test -X
