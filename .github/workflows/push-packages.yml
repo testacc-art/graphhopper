@@ -17,29 +17,29 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven1-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven1-
       - name: Cache node
         uses: actions/cache@v2
         with:
           path: web-bundle/node
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-node1-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os}}-node-
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
           path: web-bundle/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml', '**/package.json') }}
+          key: ${{ runner.os }}-node1-${{ hashFiles('**/pom.xml', '**/package.json') }}
           restore-keys: |
-            ${{ runner.os}}-node_modules-
-#       - name: Build and publish package ${{ matrix.java-version }}
-#         run: |
-#           mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
-#           mvn -B -DskipTests -Pskip-shaded-web-jar -Pskip-tools-jar source:jar deploy
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            ${{ runner.os}}-node_modules1-
+      - name: Build and publish package ${{ matrix.java-version }}
+        run: |
+          mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
+          # mvn -B -DskipTests -Pskip-shaded-web-jar -Pskip-tools-jar source:jar deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-only:
     runs-on: ubuntu-20.04
     strategy:
@@ -65,31 +65,31 @@ jobs:
         uses: stCarolas/setup-maven@v4.3
         with:
           maven-version: 3.6.3
-#       - name: Cache Maven artifacts
-#         uses: actions/cache@v2
-#         with:
-#           path: ~/.m2/repository
-#           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-#           restore-keys: |
-#             ${{ runner.os }}-maven-
+      - name: Cache Maven artifacts
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven1-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven1-
       - name: Cache node
         uses: actions/cache@v2
         with:
           path: web-bundle/node
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-node1-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os}}-node-
+            ${{ runner.os}}-node1-
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
           path: web-bundle/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml', '**/package.json') }}
+          key: ${{ runner.os }}-node1-${{ hashFiles('**/pom.xml', '**/package.json') }}
           restore-keys: |
-            ${{ runner.os}}-node_modules-
+            ${{ runner.os}}-node_modules1-
       
       - name: Build ${{ matrix.java-version }}
         run: |
           mvn --version
           java -version
-          mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
+          # mvn -B versions:set -DnewVersion=$GITHUB_SHA -DgenerateBackupPoms=false
           mvn -B clean test -X
